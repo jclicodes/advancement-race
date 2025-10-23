@@ -1,0 +1,4 @@
+name: achievement-race
+version: '0.1'
+main: codes.jcli.achievementRace.AchievementRacePlugin
+api-version: '1.21.8'
