@@ -13,10 +13,10 @@ public class AdvancementScoreboard {
     private final String OBJECTIVE_NAME = "advancement";
 
     public AdvancementScoreboard(Scoreboard scoreboard) {
-        Objective advancementObjective = scoreboard.getObjective(OBJECTIVE_NAME);
+        Objective advancementObjective = scoreboard.getObjective(OBJECTIVE_ID);
         if (advancementObjective == null) {
             Criteria advancementCriteria = Criteria.create(OBJECTIVE_NAME);
-            Component displayComponent = Component.text(OBJECTIVE_ID).color(TextColor.fromCSSHexString("orange"));
+            Component displayComponent = Component.text(OBJECTIVE_NAME).color(TextColor.fromCSSHexString("orange"));
             advancementObjective = scoreboard.registerNewObjective(OBJECTIVE_ID, advancementCriteria, displayComponent);
         }
 
