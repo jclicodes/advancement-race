@@ -1,22 +1,34 @@
 package codes.jcli.achievementRace;
 
 import org.bukkit.advancement.Advancement;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 
 public class AdvancementDoneListener implements Listener {
+    private final AchievementRacePlugin plugin;
+
+    public AdvancementDoneListener(AchievementRacePlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onAdvancementDone(PlayerAdvancementDoneEvent event) {
         Advancement advancement = event.getAdvancement();
-        if (advancement.getDisplay() != null && advancement.getParent() != null) {
-            String player = event.getPlayer().getName();
-            String key = advancement.getKey().asString();
+        boolean isCountableAdvancement = advancement.getDisplay() != null && advancement.getParent() != null;
 
-            Bukkit.getLogger().info("[AdvTest] " + player + " completed: " + key);
-            event.getPlayer().sendMessage("[AdvTest] You completed: " + key);
+        if (isCountableAdvancement) {
+            Player player = event.getPlayer();
+            plugin.getLogger().info("Advancement " + advancement.getDisplay().toString() + " for " + player.getName() + " is countable!");
+
+            int scoreBefore = plugin.getAdvancementScoreboard().getAdvancementObjective().getScore(player).getScore();
+            plugin.getLogger().info(String.format("Score before: %d", scoreBefore));
+
+            plugin.getAdvancementScoreboard().incrementForPlayer(player);
+
+            int scoreAfter = plugin.getAdvancementScoreboard().getAdvancementObjective().getScore(player).getScore();
+            plugin.getLogger().info(String.format("Score after: %d", scoreAfter));
         }
     }
 }
