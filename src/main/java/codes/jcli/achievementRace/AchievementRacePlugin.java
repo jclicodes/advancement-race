@@ -7,22 +7,28 @@ import org.bukkit.scoreboard.*;
 
 public final class AchievementRacePlugin extends JavaPlugin {
     private ScoreboardManager scoreboardManager;
+    private AdvancementManager advancementManager;
     private AdvancementScoreboard advancementScoreboard;
 
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new AdvancementDoneListener(this), this);
 
-        // setup scoreboard with advancements
         if (this.scoreboardManager == null) {
             this.scoreboardManager = Bukkit.getScoreboardManager();
         }
         this.advancementScoreboard = new AdvancementScoreboard(this.scoreboardManager.getMainScoreboard());
+
+        this.advancementManager = new AdvancementManager(this);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public AdvancementManager getAdvancementManager() {
+        return this.advancementManager;
     }
 
     public AdvancementScoreboard getAdvancementScoreboard() {
