@@ -1,6 +1,9 @@
 package codes.jcli.advancementrace.events;
 
 import codes.jcli.advancementrace.core.AchievementRacePlugin;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,14 +25,24 @@ public class AdvancementDoneListener implements Listener {
         // ignore root advancements, recipes, etc.
         if (!isCountableAdvancement) return;
 
-        plugin.getLogger().info(String.format("Awarding advancement %s to all players...", advancement.getKey().toString()));
         final boolean newAdvancement = this.plugin.getAdvancementManager().awardAdvancementToAll(advancement.getKey());
 
-        if (newAdvancement) {
-            // update scoreboard conditionally
-            Player player = event.getPlayer();
-            plugin.getLogger().info("Advancement " + advancement.getDisplay().toString() + " for " + player.getName() + " is countable!");
-            plugin.getAdvancementScoreboard().incrementForPlayer(player);
+        if (!newAdvancement) {
+            event.message(Component.empty());
+            return;
+        }
+
+        Player player = event.getPlayer();
+        plugin.getAdvancementScoreboard().incrementForPlayer(player);
+
+        Component advancementMessage = event.message();
+        if (advancementMessage != null) {
+            event.message(
+                    advancementMessage
+                    .append(Component.space())
+                    .append(Component.text("+1 point!", NamedTextColor.DARK_AQUA)
+                            .decorate(TextDecoration.BOLD))
+            );
         }
     }
 }
