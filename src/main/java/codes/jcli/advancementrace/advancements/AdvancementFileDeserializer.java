@@ -16,7 +16,7 @@ public class AdvancementFileDeserializer implements JsonDeserializer<Map<String,
         for (Map.Entry<String, JsonElement> entry : root.entrySet()) {
             JsonElement value = entry.getValue();
             // skip DataVersion and any other non-advancement primitives
-            if (!jsonElement.isJsonObject()) continue;
+            if (!value.isJsonObject()) continue;
             AdvancementPojo advancement = jsonDeserializationContext.deserialize(value, AdvancementPojo.class);
             if (advancement != null) result.put(entry.getKey(), advancement);
         }

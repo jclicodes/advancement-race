@@ -1,14 +1,16 @@
 package codes.jcli.advancementrace.core;
 
-import codes.jcli.advancementrace.events.AdvancementDoneListener;
-import codes.jcli.advancementrace.advancements.AdvancementManager;
-import codes.jcli.advancementrace.ui.AdvancementScoreboard;
 import codes.jcli.advancementrace.advancements.AdvancementAwarder;
+import codes.jcli.advancementrace.advancements.AdvancementManager;
 import codes.jcli.advancementrace.advancements.AdvancementRepository;
+import codes.jcli.advancementrace.events.AdvancementDoneListener;
+import codes.jcli.advancementrace.events.PlayerJoinListener;
+import codes.jcli.advancementrace.ui.AdvancementScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 
 public final class AchievementRacePlugin extends JavaPlugin {
@@ -18,7 +20,9 @@ public final class AchievementRacePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(new AdvancementDoneListener(this), this);
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new AdvancementDoneListener(this), this);
+        pluginManager.registerEvents(new PlayerJoinListener(this), this);
 
         if (this.scoreboardManager == null) {
             this.scoreboardManager = Bukkit.getScoreboardManager();
@@ -34,6 +38,8 @@ public final class AchievementRacePlugin extends JavaPlugin {
         AdvancementRepository repository = new AdvancementRepository(world);
         AdvancementAwarder awarder = new AdvancementAwarder();
         this.advancementManager = new AdvancementManager(repository, awarder);
+
+        advancementManager.rebuildFromPlayerData();
     }
 
     @Override
