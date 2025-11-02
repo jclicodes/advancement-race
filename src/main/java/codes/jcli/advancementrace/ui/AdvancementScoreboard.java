@@ -2,36 +2,30 @@ package codes.jcli.advancementrace.ui;
 
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
 public class AdvancementScoreboard {
-    private final Objective advancementObjective;
+    private final Objective trackedObjective;
 
-    private final String OBJECTIVE_ID = "advancement";
-    private final String OBJECTIVE_NAME = "advancement";
+    private static final String OBJECTIVE_ID = "advancement";
+    private static final Component OBJECTIVE_DISPLAY =  Component.text("Advancements").color(NamedTextColor.GOLD);
 
     public AdvancementScoreboard(Scoreboard scoreboard) {
         Objective advancementObjective = scoreboard.getObjective(OBJECTIVE_ID);
+        // set up advancement objective if not already registered on server
         if (advancementObjective == null) {
-            Criteria advancementCriteria = Criteria.create(OBJECTIVE_NAME);
-            Component displayComponent = Component.text(OBJECTIVE_NAME).color(TextColor.fromCSSHexString("orange"));
-            advancementObjective = scoreboard.registerNewObjective(OBJECTIVE_ID, advancementCriteria, displayComponent);
+            advancementObjective = scoreboard.registerNewObjective(OBJECTIVE_ID, Criteria.DUMMY, OBJECTIVE_DISPLAY);
+            advancementObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            advancementObjective.setAutoUpdateDisplay(true);
         }
 
-        advancementObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        advancementObjective.setAutoUpdateDisplay(true);
-
-        this.advancementObjective = advancementObjective;
-    }
-
-    public Objective getAdvancementObjective() {
-        return this.advancementObjective;
+        this.trackedObjective = advancementObjective;
     }
 
     public void incrementForPlayer(Player player) {
-        Score score = this.getAdvancementObjective().getScoreFor(player);
+        Score score = this.trackedObjective.getScoreFor(player);
         score.setScore(score.getScore() + 1);
     }
 }

@@ -29,14 +29,7 @@ public class AdvancementDoneListener implements Listener {
             // update scoreboard conditionally
             Player player = event.getPlayer();
             plugin.getLogger().info("Advancement " + advancement.getDisplay().toString() + " for " + player.getName() + " is countable!");
-
-            int scoreBefore = plugin.getAdvancementScoreboard().getAdvancementObjective().getScore(player).getScore();
-            plugin.getLogger().info(String.format("Score before: %d", scoreBefore));
-
             plugin.getAdvancementScoreboard().incrementForPlayer(player);
-
-            int scoreAfter = plugin.getAdvancementScoreboard().getAdvancementObjective().getScore(player).getScore();
-            plugin.getLogger().info(String.format("Score after: %d", scoreAfter));
         }
     }
 }
