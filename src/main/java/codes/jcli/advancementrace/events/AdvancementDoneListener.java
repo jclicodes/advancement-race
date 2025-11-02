@@ -19,7 +19,14 @@ public class AdvancementDoneListener implements Listener {
         Advancement advancement = event.getAdvancement();
         boolean isCountableAdvancement = advancement.getDisplay() != null && advancement.getParent() != null;
 
-        if (isCountableAdvancement) {
+        // ignore root advancements, recipes, etc.
+        if (!isCountableAdvancement) return;
+
+        plugin.getLogger().info(String.format("Awarding advancement %s to all players...", advancement.getKey().toString()));
+        final boolean newAdvancement = this.plugin.getAdvancementManager().awardAdvancementToAll(advancement.getKey());
+
+        if (newAdvancement) {
+            // update scoreboard conditionally
             Player player = event.getPlayer();
             plugin.getLogger().info("Advancement " + advancement.getDisplay().toString() + " for " + player.getName() + " is countable!");
 

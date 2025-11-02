@@ -26,10 +26,16 @@ public class AdvancementManager {
         awarder.awardMultipleToPlayer(player, unlockedAdvancements);
     }
 
-    public void awardAdvancementToAll(NamespacedKey advancementKey) {
+    /**
+     * @param advancementKey the ID of the advancement to award
+     * @return true if this was a new advancement, false if already unlocked.
+     */
+    public boolean awardAdvancementToAll(NamespacedKey advancementKey) {
         if (unlockedAdvancements.add(advancementKey)) {
             awarder.awardToAllOnline(advancementKey);
+            return true;
         }
+        return false;
     }
 
     public Set<NamespacedKey> getUnlockedAdvancements() {
