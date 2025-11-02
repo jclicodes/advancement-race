@@ -1,4 +1,4 @@
-package codes.jcli.achievementRace;
+package codes.jcli.advancementrace.ui;
 
 
 import net.kyori.adventure.text.Component;

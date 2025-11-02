@@ -1,5 +1,6 @@
-package codes.jcli.achievementRace;
+package codes.jcli.advancementrace.advancements;
 
+import codes.jcli.advancementrace.model.AdvancementPojo;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

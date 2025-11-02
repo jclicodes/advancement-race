@@ -1,5 +1,6 @@
-package codes.jcli.achievementRace;
+package codes.jcli.advancementrace.events;
 
+import codes.jcli.advancementrace.core.AchievementRacePlugin;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
